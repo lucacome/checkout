@@ -4658,6 +4658,7 @@ function run() {
                 coreCommand.issueCommand('add-matcher', {}, path.join(__dirname, 'problem-matcher.json'));
                 // Get sources
                 yield gitSourceProvider.getSource(sourceSettings);
+                core.setOutput('ref', sourceSettings.ref);
             }
             finally {
                 // Unregister problem matcher
@@ -32022,7 +32023,8 @@ function getSource(settings) {
             // Get commit information
             const commitInfo = yield git.log1();
             // Log commit sha
-            yield git.log1("--format='%H'");
+            const commitSHA = yield git.log1("--format='%H'");
+            core.setOutput('commit', commitSHA.trim().replace(/'/g, ''));
             // Check for incorrect pull request merge commit
             yield refHelper.checkCommitInfo(settings.authToken, commitInfo, settings.repositoryOwner, settings.repositoryName, settings.ref, settings.commit, settings.githubServerUrl);
         }
