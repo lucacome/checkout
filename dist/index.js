@@ -32023,8 +32023,8 @@ function getSource(settings) {
             // Get commit information
             const commitInfo = yield git.log1();
             // Log commit sha
-            const commitSHA = yield git.log1("--format='%H'");
-            core.setOutput('commit', commitSHA.trim().replace(/'/g, ''));
+            const commitSHA = yield git.log1('--format=%H');
+            core.setOutput('commit', commitSHA.trim());
             // Check for incorrect pull request merge commit
             yield refHelper.checkCommitInfo(settings.authToken, commitInfo, settings.repositoryOwner, settings.repositoryName, settings.ref, settings.commit, settings.githubServerUrl);
         }
